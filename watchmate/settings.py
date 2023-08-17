@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-rmw3hvy&86$2_37qh(ba4@_ui%i72=^@_no%^mzgp=u2foltws
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'watchlist_app',
+    'user_app',
     
     'rest_framework',
     'rest_framework.authtoken',
@@ -134,23 +135,26 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
     # 'DEFAULT_PERMISSION_CLASSES': [
     #     'rest_framework.permissions.IsAuthenticated',
     #     ],
-    'DEFAULT_THROTTLE_CLASSES': [
-        # 'rest_framework.throttling.AnonRateThrottle',
-        # 'rest_framework.throttling.UserRateThrottle',
-        'watchlist_app.throttling.ReviewListThrottle',
-        'watchlist_app.throttling.ReviewDetailThrottle',
-        'rest_framework.throttling.ScopedRateThrottle',
-    ],
-    'DEFAULT_THROTTLE_RATES': {
-        # 'anon': '1/day',
-        # 'user': '10/day',
-        'review-list': '5/day',
-        'review-detail': '2/day',
-        'reviews': '3/day',
-    },
+    # 'DEFAULT_THROTTLE_CLASSES': [
+    #     # 'rest_framework.throttling.AnonRateThrottle',
+    #     # 'rest_framework.throttling.UserRateThrottle',
+    #     'watchlist_app.throttling.ReviewListThrottle',
+    #     'watchlist_app.throttling.ReviewDetailThrottle',
+    #     'rest_framework.throttling.ScopedRateThrottle',
+    # ],
+    # 'DEFAULT_THROTTLE_RATES': {
+    #     # 'anon': '1/day',
+    #     # 'user': '10/day',
+    #     'review-list': '5/day',
+    #     'review-detail': '2/day',
+    #     'reviews': '3/day',
+    # },
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
             
 }

@@ -15,16 +15,17 @@ urlpatterns = [
     
     # path('streams/', views.StreamPlatformListAPIView.as_view(), name='stream'),
     
-    path('<str:pk>/', views.WatchDetailAPIView.as_view(), name='movie-detail'),
+    path('detail/<str:pk>/', views.WatchDetailAPIView.as_view(), name='movie-detail'),
     # path('stream/<str:pk>/', views.StreamingPlatformDetailAPIView.as_view(), name='streamplatform-detail'),
     
-    path('reviews/', views.ReviewList.as_view(), name='reviews-list'),
+    
     # path('review/<int:pk>', views.ReviewDetail.as_view(), name='review_detail'),
     
     path('review/<str:username>/', views.UserReview.as_view(), name='user_review_list'),
     path('list', views.WatchlistGV.as_view(), name='list'),
+    path('reviews/', views.ReviewList.as_view(), name='reviews-list'),
     
     path('<int:pk>/review-create', views.ReviewCreate.as_view(), name='review_create'),
     path('review/<int:pk>', views.ReviewDetail.as_view(), name='review_detail'),
-    path('<int:pk>/review/', views.ReviewList.as_view(), name='review_list')
+    path('<int:pk>/review/', views.IndReviewList.as_view(), name='review_list')
 ]

@@ -13,13 +13,13 @@ from rest_framework import viewsets
 from rest_framework.exceptions import ValidationError
 
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.throttling import ScopedRateThrottle
+# from rest_framework.throttling import ScopedRateThrottle
 
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 
 from watchlist_app.permissions import IsAdminOrReadOnly, IsReviewUserOrReadOnly
-from watchlist_app.throttling import ReviewDetailThrottle, ReviewListThrottle
+# from watchlist_app.throttling import ReviewDetailThrottle, ReviewListThrottle
 
 
 class UserReview(generics.ListAPIView):
@@ -29,18 +29,26 @@ class UserReview(generics.ListAPIView):
         username = self.kwargs['username']
         # username = self.request.query_params.get('username', None)
         return Review.objects.filter(review_user__username=username)
-
-class ReviewList(generics.ListAPIView):
+    
+class IndReviewList(generics.ListAPIView):
     # queryset = Review.objects.all()
     serializer_class = ReviewSerializer
     permission_classes = []
-    throttle_classes = [ScopedRateThrottle]
-    throttle_scope = 'reviews'
-    
-    
+    # throttle_classes = [ScopedRateThrottle]
+    # throttle_scope = 'reviews'
+
     def get_queryset(self):
         pk = self.kwargs['pk']
         return Review.objects.filter(watchlist=pk)
+    
+
+class ReviewList(generics.ListAPIView):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+    permission_classes = []
+    # throttle_classes = [ScopedRateThrottle]
+    # throttle_scope = 'reviews'
+
     
 class ReviewCreate(generics.CreateAPIView):
     serializer_class = ReviewSerializer
@@ -73,7 +81,7 @@ class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
     permission_classes = [IsReviewUserOrReadOnly]
-    throttle_classes = [ReviewDetailThrottle]
+    # throttle_classes = [ReviewDetailThrottle]
 
 # class ReviewList(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateModelMixin):
 #     queryset = Review.objects.all()
@@ -103,7 +111,7 @@ class WatchlistGV(generics.ListAPIView):
 
 class WatchListAPIView(APIView):
     permission_classes = [IsAdminOrReadOnly]
-    throttle_classes = [ReviewListThrottle]
+    # throttle_classes = [ReviewListThrottle]
 
     def get(self, request):
         try:
